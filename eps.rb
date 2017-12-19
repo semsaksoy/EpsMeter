@@ -32,7 +32,7 @@ def tick
     print "\r"+ ("\e[A\e[K"* (@sources.keys.count+9))
 
 
-    rows<< ["Sources", "Live EPS/Size", "Peak EPS/Time", " Avg(Minute) EPS / Size", " Avg(Hour) EPS / Size"]
+    rows<< ["  Sources  ", "  Live EPS/Size  ", "  Peak EPS/Time  ", "  Avg(Minute) EPS / Size  ", "  Avg(Hour) EPS / Size  "]
     rows << :separator
 
 
