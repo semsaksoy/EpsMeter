@@ -7,7 +7,12 @@ require_relative "helper"
 @sources={}
 @time=0
 @report=""
+@sender=nil
 system "clear"
+
+if !@options[:target_ip].nil? && !@options[:target_port].nil?
+  @sender = UDPSocket.new
+end
 
 
 def min_tick
@@ -15,6 +20,8 @@ def min_tick
     @sources[k].min_tick
   end
 end
+
+
 
 
 def tick
@@ -36,10 +43,16 @@ def tick
               "#{@sources[k].hour_average_eps} EPS/#{@sources[k].hour_average_size} Bytes"]
 
     end
-    table = Terminal::Table.new :rows => rows, :title => "EPS Monitor  /  "\
-    "#{ @options[:ip_mode] ? "IP Mode" : "IP and Port Mode"}  /  "\
-    "Port: #{@options[:port]}  /  "\
-    "#{Time.at(@time).utc.strftime("%H:%M:%S")}"
+
+
+    title="EPS Monitor  /  "
+    title+="#{ @options[:ip_mode] ? "IP Mode" : "IP and Port Mode"}  /  "
+    title+="Port: #{@options[:port]}  /  "
+    title+="Transport: #{@options[:target_ip]}:#{@options[:target_port]}  /  " unless @sender.nil?
+    title+="#{Time.at(@time).utc.strftime("%H:%M:%S")}"
+
+
+    table = Terminal::Table.new :rows => rows, :title => title
     @report=table
     print table
   rescue Exception => e
@@ -54,6 +67,7 @@ t1=Thread.new do
     tick
   end
 end
+
 
 
 def listen
@@ -81,7 +95,7 @@ def listen
       @sources[ip].hit
       @sources[ip].size msg.bytesize
     end
-
+    @sender.send(msg, 0, @options[:target_ip], @options[:target_port]) unless @sender.nil?
 
   end
 
@@ -91,10 +105,13 @@ begin
   listen
 
 rescue Exception => e
+  #@sender.close
   if @options[:n_save]==false
     f="Eps_#{Time.now.strftime("%m_%d_%Y_%H_%M_%S")}.txt"
     File.write(f, @report)
     print "\n\n#{f} saved."
+
   end
+  p e.message
   print "\n\n"
 end

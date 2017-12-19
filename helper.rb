@@ -148,7 +148,13 @@ OptionParser.new do |opts|
     @options[:n_save] = n_save
   end
 
+  opts.on('-t ip:port', 'Target ip:port for transport events') do |target|
+    @options[:target_ip] = target.split(":")[0]
+    @options[:target_port] = target.split(":")[1]
+  end
+
 end.parse!
+
 
 @options[:port]=514 if @options[:port].nil?
 @options[:ip_mode]=false if @options[:ip_mode].nil?
