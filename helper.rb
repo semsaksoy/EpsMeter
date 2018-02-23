@@ -128,7 +128,9 @@ def gem_install(lib)
   end
 end
 
+gem_install "unicode-display_width"
 gem_install "terminal-table"
+
 require "terminal-table"
 
 
@@ -136,7 +138,7 @@ require "terminal-table"
 OptionParser.new do |opts|
   opts.banner = "Usage: eps.rb [options]"
 
-  opts.on('-p port', 'Listening port') do |port|
+  opts.on('-p port', 'Listening port (default 514)') do |port|
     @options[:port] = port
   end
 
@@ -148,11 +150,21 @@ OptionParser.new do |opts|
     @options[:n_save] = n_save
   end
 
+  opts.on('-t', 'TCP based (Default UDP)') do |tcp|
+    @options[:tcp] = tcp
+  end
+
+  opts.on_tail('-v', "Show version") do
+    puts "\nEps monitor 1.0\n\nhttps://www.linkedin.com/in/semsaksoy\n\n"
+    exit
+  end
+
 end.parse!
 
 @options[:port]=514 if @options[:port].nil?
 @options[:ip_mode]=false if @options[:ip_mode].nil?
 @options[:n_save]= false if @options[:n_save].nil?
+@options[:tcp]= false if @options[:tcp].nil?
 
 
 

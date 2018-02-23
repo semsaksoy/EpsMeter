@@ -22,8 +22,6 @@ def min_tick
 end
 
 
-
-
 def tick
   begin
     rows = []
@@ -47,7 +45,7 @@ def tick
 
     title="EPS Monitor  /  "
     title+="#{ @options[:ip_mode] ? "IP Mode" : "IP and Port Mode"}  /  "
-    title+="Port: #{@options[:port]}  /  "
+    title+="Port: #{ @options[:tcp] ? "TCP" : "UDP"} #{@options[:port]}  /  "
     title+="Transport: #{@options[:target_ip]}:#{@options[:target_port]}  /  " unless @sender.nil?
     title+="#{Time.at(@time).utc.strftime("%H:%M:%S")}"
 
@@ -69,8 +67,7 @@ t1=Thread.new do
 end
 
 
-
-def listen
+def listen_udp
 
   Socket.udp_server_loop(@options[:port]) do |msg, msg_src|
 
@@ -81,17 +78,10 @@ def listen
     end
 
     if @sources.keys.include?(ip)
-      # p ip
-      # p @sources[ip].ip
-
       @sources[ip].hit
       @sources[ip].size msg.bytesize
-
-
     else
       @sources[ip]=Source.new(ip)
-
-
       @sources[ip].hit
       @sources[ip].size msg.bytesize
     end
@@ -101,8 +91,49 @@ def listen
 
 end
 
+def listen_tcp
+  Socket.tcp_server_loop(@options[:port]) do |sock, msg_src|
+    Thread.new do
+      begin
+
+        loop {
+          m=sock.gets
+          if !m.nil?
+
+            if @options[:ip_mode]==false
+              ip=msg_src.inspect_sockaddr
+            else
+              ip=msg_src.inspect_sockaddr.split(":").first
+            end
+
+
+            if @sources.keys.include?(ip)
+              @sources[ip].hit
+              @sources[ip].size m.bytesize
+            else
+              @sources[ip]=Source.new(ip)
+              @sources[ip].hit
+              @sources[ip].size m.bytesize
+            end
+          end
+
+
+        }
+      ensure
+        sock.close
+      end
+    end
+  end
+end
+
+
 begin
-  listen
+  if @options[:tcp]==true
+    listen_tcp
+  else
+    listen_udp
+  end
+
 
 rescue Exception => e
   #@sender.close
