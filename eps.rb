@@ -72,6 +72,7 @@ t1=Thread.new do
   loop do
     sleep(1)
     tick
+    
   end
 end
 
