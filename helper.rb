@@ -14,11 +14,16 @@ class Source
   @minute_size_array
   @hour_eps_array
   @hour_size_array
+  @day_eps_array
+  @day_size_array
   @peak
   @peak_time
 
   @hour_average_eps
   @hour_average_size
+
+  @day_average_eps
+  @day_average_size
 
   def initialize(ip)
     @ip=ip
@@ -28,8 +33,12 @@ class Source
     @minute_size_array=[]
     @hour_eps_array=[]
     @hour_size_array=[]
+    @day_eps_array=[]
+    @day_size_array=[]
     @hour_average_eps=0
     @hour_average_size=0
+    @day_average_eps=0
+    @day_average_size=0
     @peak=0
   end
 
@@ -85,6 +94,19 @@ class Source
     a.round(1)
   end
 
+  # def hour_average_size
+  #   @hour_size_array=@hour_size_array.last(24)
+  #   a=@hour_size_array.inject(0.0) { |sum, el| sum + el } / @hour_size_array.size
+  #   a.round(1)
+  # end
+  #
+  #
+  # def hour_average_eps
+  #   @hour_eps_array=@hour_eps_array.last(24)
+  #   a=@hour_eps_array.inject(0.0) { |sum, el| sum + el } / @hour_eps_array.size
+  #   a.round(1)
+  # end
+
 
   def show
     "#{@count} #{@size_array}"
@@ -115,6 +137,26 @@ class Source
   def hour_average_size
     @hour_average_size.round(1)
   end
+
+  def day_average_eps
+    @day_average_eps.round(1)
+  end
+
+  def day_average_size
+    @day_average_size.round(1)
+  end
+
+  def hour_tick
+
+    @day_eps_array<<hour_average_eps
+    @day_eps_array=@day_eps_array.last(48)
+    @day_average_eps= @day_eps_array.inject(0.0) { |sum, el| sum + el } / @day_eps_array.size
+
+    @day_size_array<<hour_average_size
+    @day_size_array=@day_size_array.last(48)
+    @day_average_size= @day_size_array.inject(0.0) { |sum, el| sum + el } / @day_size_array.size
+  end
+
 
 
 end

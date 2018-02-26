@@ -21,16 +21,24 @@ def min_tick
   end
 end
 
+def hour_tick
+
+  @sources.keys.each do |k|
+    @sources[k].hour_tick
+  end
+end
+
 
 def tick
   begin
     rows = []
     @time+=1
     min_tick if @time%60==0
+    hour_tick if @time%3600==0
     print "\r"+ ("\e[A\e[K"* (@sources.keys.count+9))
 
 
-    rows<< ["  Sources  ", "  Live EPS/Size  ", "  Peak EPS/Time  ", "  Avg(Minute) EPS / Size  ", "  Avg(Hour) EPS / Size  "]
+    rows<< [" Sources ", "  Live EPS/Size  ", " Peak EPS/Time ", " Avg(Minute) EPS / Size ", " Avg(Hour) EPS / Size ", " Avg(2 Days) EPS / Size "]
     rows << :separator
 
 
@@ -38,7 +46,8 @@ def tick
       rows<< ["#{@sources[k].ip}", "#{@sources[k].count} EPS/#{@sources[k].avg_size} Bytes",
               "#{@sources[k].peak} EPS/#{@sources[k].peak_time.strftime("%H:%M")}",
               "#{@sources[k].minute_average_eps} EPS/#{@sources[k].minute_average_size} Bytes",
-              "#{@sources[k].hour_average_eps} EPS/#{@sources[k].hour_average_size} Bytes"]
+              "#{@sources[k].hour_average_eps} EPS/#{@sources[k].hour_average_size} Bytes",
+              "#{@sources[k].day_average_eps} EPS/#{@sources[k].day_average_size} Bytes"]
 
     end
 
@@ -47,7 +56,7 @@ def tick
     title+="#{ @options[:ip_mode] ? "IP Mode" : "IP and Port Mode"}  /  "
     title+="Port: #{ @options[:tcp] ? "TCP" : "UDP"} #{@options[:port]}  /  "
     title+="Transport: #{@options[:target_ip]}:#{@options[:target_port]}  /  " unless @sender.nil?
-    title+="#{Time.at(@time).utc.strftime("%H:%M:%S")}"
+    title+="#{Time.at(@time).utc.strftime("%H%H:%M:%S")}"
 
 
     table = Terminal::Table.new :rows => rows, :title => title
