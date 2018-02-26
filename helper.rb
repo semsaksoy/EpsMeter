@@ -5,7 +5,6 @@ require "socket"
 require 'optparse'
 require 'io/console'
 
-
 class Source
   @count
   @size_array
@@ -18,10 +17,8 @@ class Source
   @day_size_array
   @peak
   @peak_time
-
   @hour_average_eps
   @hour_average_size
-
   @day_average_eps
   @day_average_size
 
@@ -65,14 +62,12 @@ class Source
       @minute_size_array<<a if a!=0
       return a.round(1)
     end
-
   end
 
   def count
     a=@count
     @count=0
     @minute_eps_array<< a
-
     if a>@peak
       @peak=a
       @peak_time=Time.now
@@ -80,33 +75,17 @@ class Source
     return a
   end
 
-
   def minute_average_size
     @minute_size_array=@minute_size_array.last(60)
     a=@minute_size_array.inject(0.0) { |sum, el| sum + el } / @minute_size_array.size
     a.round(1)
   end
 
-
   def minute_average_eps
     @minute_eps_array=@minute_eps_array.last(60)
     a=@minute_eps_array.inject(0.0) { |sum, el| sum + el } / @minute_eps_array.size
     a.round(1)
   end
-
-  # def hour_average_size
-  #   @hour_size_array=@hour_size_array.last(24)
-  #   a=@hour_size_array.inject(0.0) { |sum, el| sum + el } / @hour_size_array.size
-  #   a.round(1)
-  # end
-  #
-  #
-  # def hour_average_eps
-  #   @hour_eps_array=@hour_eps_array.last(24)
-  #   a=@hour_eps_array.inject(0.0) { |sum, el| sum + el } / @hour_eps_array.size
-  #   a.round(1)
-  # end
-
 
   def show
     "#{@count} #{@size_array}"
@@ -124,7 +103,6 @@ class Source
     @hour_eps_array<<minute_average_eps
     @hour_eps_array=@hour_eps_array.last(60)
     @hour_average_eps= @hour_eps_array.inject(0.0) { |sum, el| sum + el } / @hour_eps_array.size
-
     @hour_size_array<<minute_average_size
     @hour_size_array=@hour_size_array.last(60)
     @hour_average_size= @hour_size_array.inject(0.0) { |sum, el| sum + el } / @hour_size_array.size
@@ -147,23 +125,18 @@ class Source
   end
 
   def hour_tick
-
     @day_eps_array<<hour_average_eps
     @day_eps_array=@day_eps_array.last(48)
     @day_average_eps= @day_eps_array.inject(0.0) { |sum, el| sum + el } / @day_eps_array.size
-
     @day_size_array<<hour_average_size
     @day_size_array=@day_size_array.last(48)
     @day_average_size= @day_size_array.inject(0.0) { |sum, el| sum + el } / @day_size_array.size
   end
 
-
-
 end
 
 def gem_install(lib)
   begin
-
     Gem::GemRunner.new.run ['install', "#{lib}.gem", "--local"] unless Gem::Specification.map { |g| g.name }.include?(lib)
   rescue Gem::SystemExitException => e
     p e
@@ -175,27 +148,21 @@ gem_install "terminal-table"
 
 require "terminal-table"
 
-
 @options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: eps.rb [options]"
-
   opts.on('-p port', 'Listening port (default 514)') do |port|
     @options[:port] = port
   end
-
   opts.on('-i', 'IP mode (default ip and port)') do |ip|
     @options[:ip_mode] = ip
   end
-
   opts.on('-n', 'Dont save on exit') do |n_save|
     @options[:n_save] = n_save
   end
-
   opts.on('-t', 'TCP based (Default UDP)') do |tcp|
     @options[:tcp] = tcp
   end
-
   opts.on_tail('-v', "Show version") do
     puts "\nEps monitor 1.0\n\nhttps://www.linkedin.com/in/semsaksoy\n\n"
     exit
@@ -207,6 +174,3 @@ end.parse!
 @options[:ip_mode]=false if @options[:ip_mode].nil?
 @options[:n_save]= false if @options[:n_save].nil?
 @options[:tcp]= false if @options[:tcp].nil?
-
-
-
