@@ -1,6 +1,6 @@
 This tool acts as a syslog server and it can detect incoming EPS (Event per Second) values and data size. It groups log sources by current second, minute and hour on any operating system.
 
-
+![](https://bitbucket.org/sems/epsmonitor/downloads/ScreenshotatAra2220-56-53.png | width=100)
 
 
  
@@ -19,6 +19,6 @@ image
 image
 
 
-When you use ctrl + c combination for exit, then the application stores the latest state as a text file if you donâ€™t prevent this with parameter.
+When you use ctrl + c combination for exit, then the application stores the latest state as a text file if you don’t prevent this with parameter.
 
-In my tests with Syslog-ngâ€™s loggen test tool, it responded with high accuracy even in high (10000) EPSs.
+In my tests with Syslog-ng’s loggen test tool, it responded with high accuracy even in high (10000) EPSs.
