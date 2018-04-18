@@ -19,3 +19,8 @@ When you use ctrl + c combination for exit, then the application stores the late
 ![](https://bitbucket.org/sems/epsmeter/downloads/ScreenshotatAra2221-01-02.png | width=60)
 
 In my tests with Syslog-ng’s loggen test tool, it responded with high accuracy even in high (10000) EPSs.
+
+
+[ Download EpsMeter ](https://bitbucket.org/sems/epsmeter/get/HEAD.zip)
+
+
