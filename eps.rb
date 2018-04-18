@@ -40,7 +40,7 @@ def tick
               "#{@sources[k].hour_average_eps} EPS/#{@sources[k].hour_average_size} Bytes",
               "#{@sources[k].day_average_eps} EPS/#{@sources[k].day_average_size} Bytes"]
     end
-    title="EPS Monitor  /  "
+    title="EpsMeter  /  "
     title+="#{ @options[:ip_mode] ? "IP Mode" : "IP and Port Mode"}  /  "
     title+="Port: #{ @options[:tcp] ? "TCP" : "UDP"} #{@options[:port]}  /  "
     title+="Transport: #{@options[:target_ip]}:#{@options[:target_port]}  /  " unless @sender.nil?
