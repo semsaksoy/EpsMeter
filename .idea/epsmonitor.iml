@@ -7,5 +7,6 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="terminal-table-1.8.0 (v1.8.0, ruby-2.0.0-p645) [gem]" level="application" />
   </component>
 </module>
