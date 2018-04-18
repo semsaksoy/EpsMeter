@@ -9,14 +9,14 @@ It works with parameters like any CLI application. You can configure this tool o
 
 
 image
-
+![](https://bitbucket.org/sems/epsmonitor/downloads/ScreenshotatAra2221-06-13.png | width=100)
  
 
  
 
  
 
-image
+![](https://bitbucket.org/sems/epsmonitor/downloads/ScreenshotatAra2221-01-02.png | width=60)
 
 
 When you use ctrl + c combination for exit, then the application stores the latest state as a text file if you don’t prevent this with parameter.
