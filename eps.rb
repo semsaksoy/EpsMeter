@@ -44,7 +44,7 @@ def tick
     title+="#{ @options[:ip_mode] ? "IP Mode" : "IP and Port Mode"}  /  "
     title+="Port: #{ @options[:tcp] ? "TCP" : "UDP"} #{@options[:port]}  /  "
     title+="Transport: #{@options[:target_ip]}:#{@options[:target_port]}  /  " unless @sender.nil?
-    title+="#{Time.at(@time).utc.strftime("%H%H:%M:%S")}"
+    title+="#{Time.at(@time).utc.strftime("Day: %d %H:%M:%S")}"
     table = Terminal::Table.new :rows => rows, :title => title
     @report=table
     print table
