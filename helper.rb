@@ -164,7 +164,7 @@ OptionParser.new do |opts|
     @options[:tcp] = tcp
   end
   opts.on_tail('-v', "Show version") do
-    puts "\nEpsMeter 1.0\n\nhttps://www.linkedin.com/in/semsaksoy\n\n"
+    puts "\nEpsMeter 1.1\n\nhttps://www.linkedin.com/in/semsaksoy\n\n"
     exit
   end
 
