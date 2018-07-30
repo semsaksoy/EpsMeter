@@ -31,7 +31,7 @@ def tick
     min_tick if @time%60==0
     hour_tick if @time%3600==0
     print "\r"+ ("\e[A\e[K"* (@sources.keys.count+9))
-    rows<< [" Sources ", "  Live EPS/Size  ", " Peak EPS/Time ", " Avg(Minute) EPS / Size ", " Avg(Hour) EPS / Size ", " Avg(2 Days) EPS / Size "]
+    rows<< [" Sources ", "   Live EPS/Size   ", " Peak EPS/Time ", " Avg(Minute) EPS / Size ", " Avg(Hour) EPS / Size ", " Avg(2 Days) EPS / Size "]
     rows << :separator
     @sources.keys.each do |k|
       rows<< ["#{@sources[k].ip}", "#{@sources[k].count} EPS/#{@sources[k].avg_size} Bytes",
