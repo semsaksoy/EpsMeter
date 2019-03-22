@@ -18,7 +18,11 @@ It works with parameters like any CLI application. You can configure this tool o
 
 When you use ctrl + c combination for exit, then the application stores the latest state as a text file if you don't prevent this with parameter.
 
+## TCP
 ![ss3](https://bitbucket.org/sems/epsmeter/downloads/ScreenshotatAra2221-01-02.png)
+
+## UDP
+![ss4](https://user-images.githubusercontent.com/1064270/54852220-446de380-4cfd-11e9-8c2a-70b81486c704.jpeg)
 
 In my tests with Syslog-ng's [loggen](https://linux.die.net/man/1/loggen) test tool, it responded with high accuracy even at 10000 EPSs.
 
